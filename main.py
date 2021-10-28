@@ -48,7 +48,7 @@ class Indicator():
                 if runs2:
                     self.update_icon("/green.png")
                 else:
-                    self.update_icon("/purple.png")
+                    self.update_icon("/red.png")
             runs1 = runs2
 
     def create_menu(self):
