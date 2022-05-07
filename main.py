@@ -25,19 +25,24 @@ class Indicator():
         self.indicator = AppIndicator3.Indicator.new(
             self.app, iconpath,
             AppIndicator3.IndicatorCategory.OTHER)
-        self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)       
+        self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
         self.indicator.set_menu(self.create_menu())
 
         self.update = Thread(target=self.check_runs)
         self.update.setDaemon(True)
-        self.update.start()     
+        self.update.start()
+        self.subprocess = subprocess.Popen(
+            ["lsyncd", "-nodaemon", "/etc/lsyncd.conf"],
+            stdout = subprocess.PIPE,
+            stderr = subprocess.PIPE,
+        )
 
     def update_icon(self, path):
         GObject.idle_add(
             self.indicator.set_icon,
             currpath+path,
             priority=GObject.PRIORITY_DEFAULT
-            )   
+        )
 
     def check_runs(self):
         runs1 = ""
